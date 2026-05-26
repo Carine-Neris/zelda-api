@@ -50,7 +50,7 @@ root_packages = ["modules"]
 [[tool.importlinter.contracts]]
 name    = "Clean Architecture: domain must be independent"
 type    = "independence"
-modules = ["modules.games.domain"]
+modules = ["modules.games.domain", "modules.characters.domain"]
 
 
 # ── 2. Application não importa Infrastructure (Dependency Inversion Principle) ─
@@ -70,7 +70,7 @@ allow_indirect_imports = false
 [[tool.importlinter.contracts]]
 name              = "Clean Architecture: domain must not import application or infrastructure"
 type              = "forbidden"
-source_modules    = ["modules.games.domain"]
+source_modules    = ["modules.games.domain", "modules.characters.domain"]
 forbidden_modules = ["modules.games.application", "modules.games.infrastructure"]
 allow_indirect_imports = false
 
@@ -138,5 +138,65 @@ forbidden_modules = [
     "modules.games.application.use_cases.delete_game",
     "modules.games.application.use_cases.get_all_game",
     "modules.games.application.use_cases.get_game_by_id",
+]
+allow_indirect_imports = false
+
+[[tool.importlinter.contracts]]
+name              = "Clean Code: create_character must not import other use cases"
+type              = "forbidden"
+source_modules    = ["modules.characters.application.use_cases.create_character"]
+forbidden_modules = [
+    "modules.characters.application.use_cases.delete_character",
+    "modules.characters.application.use_cases.get_all_character",
+    "modules.characters.application.use_cases.get_character_by_id",
+    "modules.characters.application.use_cases.update_character",
+]
+allow_indirect_imports = false
+
+[[tool.importlinter.contracts]]
+name              = "Clean Code: delete_character must not import other use cases"
+type              = "forbidden"
+source_modules    = ["modules.characters.application.use_cases.delete_character"]
+forbidden_modules = [
+    "modules.characters.application.use_cases.create_character",
+    "modules.characters.application.use_cases.get_all_character",
+    "modules.characters.application.use_cases.get_character_by_id",
+    "modules.characters.application.use_cases.update_character",
+]
+allow_indirect_imports = false
+
+[[tool.importlinter.contracts]]
+name              = "Clean Code: get_all_character must not import other use cases"
+type              = "forbidden"
+source_modules    = ["modules.characters.application.use_cases.get_all_character"]
+forbidden_modules = [
+    "modules.characters.application.use_cases.create_character",
+    "modules.characters.application.use_cases.delete_character",
+    "modules.characters.application.use_cases.get_character_by_id",
+    "modules.characters.application.use_cases.update_character",
+]
+allow_indirect_imports = false
+
+[[tool.importlinter.contracts]]
+name              = "Clean Code: get_character_by_id must not import other use cases"
+type              = "forbidden"
+source_modules    = ["modules.characters.application.use_cases.get_character_by_id"]
+forbidden_modules = [
+    "modules.characters.application.use_cases.create_character",
+    "modules.characters.application.use_cases.delete_character",
+    "modules.characters.application.use_cases.get_all_character",
+    "modules.characters.application.use_cases.update_character",
+]
+allow_indirect_imports = false
+
+[[tool.importlinter.contracts]]
+name              = "Clean Code: update_character must not import other use cases"
+type              = "forbidden"
+source_modules    = ["modules.characters.application.use_cases.update_character"]
+forbidden_modules = [
+    "modules.characters.application.use_cases.create_character",
+    "modules.characters.application.use_cases.delete_character",
+    "modules.characters.application.use_cases.get_all_character",
+    "modules.characters.application.use_cases.get_character_by_id",
 ]
 allow_indirect_imports = false
