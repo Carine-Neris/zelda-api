@@ -8,7 +8,6 @@ class Character:
     race: str
     age: int
     gender: str
-    origin: str
     description: str
     image_url: str | None
     id: UUID = field(default_factory=uuid4)
