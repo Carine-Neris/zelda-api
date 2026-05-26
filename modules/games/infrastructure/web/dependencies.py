@@ -1,9 +1,9 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
-from infrastructure.persistence.database import get_db
-from infrastructure.persistence.repositories.sqlalchemy_game_repository import SqlAlchemyGameRepository
-from application.use_cases.create_game import CreateGameUseCase
-from application.use_cases.get_game_by_id import GetGameByIdUseCase
+from config.database import get_db
+from modules.games.infrastructure.persistence.sqlalchemy_game_repository import SqlAlchemyGameRepository
+from modules.games.application.use_cases.create_game import CreateGameUseCase
+from modules.games.application.use_cases.get_game_by_id import GetGameByIdUseCase
 
 # Fábrica para o Repositório
 def factory_game_repository(db: Session = Depends(get_db)):

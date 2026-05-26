@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from uuid import UUID
-from infrastructure.persistence.database import get_db
-from infrastructure.persistence.repositories.sqlalchemy_game_repository import SqlAlchemyGameRepository
-from application.use_cases.create_game import CreateGameUseCase
-from application.use_cases.get_all_game import GetAllGameUseCase
-from application.use_cases.get_game_by_id import GetGameByIdUseCase
-from application.use_cases.update_game import UpdateGameUseCase
-from application.use_cases.delete_game import DeleteGameUseCase
-from application.dto.game_dto import GameCreateDTO, GameUpdateDTO, GameResponseDTO
-from infrastructure.web.dependencies import factory_create_game_use_case
+from config.database import get_db
+from modules.games.infrastructure.persistence.sqlalchemy_game_repository import SqlAlchemyGameRepository
+from modules.games.application.use_cases.create_game import CreateGameUseCase
+from modules.games.application.use_cases.get_all_game import GetAllGameUseCase
+from modules.games.application.use_cases.get_game_by_id import GetGameByIdUseCase
+from modules.games.application.use_cases.update_game import UpdateGameUseCase
+from modules.games.application.use_cases.delete_game import DeleteGameUseCase
+from modules.games.application.game_dto import GameCreateDTO, GameUpdateDTO, GameResponseDTO
+from modules.games.infrastructure.web.dependencies import factory_create_game_use_case
 
 router = APIRouter(prefix="/games", tags=["Games"])
 

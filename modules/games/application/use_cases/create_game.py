@@ -1,6 +1,6 @@
-from domain.entities import Game
-from domain.repositories import IGameRepository
-from application.dto.game_dto import GameCreateDTO
+from modules.games.domain.entities import Game
+from modules.games.domain.repositories import IGameRepository
+from modules.games.application.game_dto import GameCreateDTO
 
 
 class CreateGameUseCase:

@@ -41,7 +41,7 @@ package-mode = false
 #   4. no_circular_app : use cases não importam uns aos outros de volta
 # ─────────────────────────────────────────────────────────────────────────────
 [tool.importlinter]
-root_packages = ["domain", "application", "infrastructure"]
+root_packages = ["modules"]
 
 
 # ── 1. Independência do Domain (Clean Code — Single Responsibility) ───────────
@@ -50,7 +50,7 @@ root_packages = ["domain", "application", "infrastructure"]
 [[tool.importlinter.contracts]]
 name    = "Clean Architecture: domain must be independent"
 type    = "independence"
-modules = ["domain"]
+modules = ["modules.games.domain"]
 
 
 # ── 2. Application não importa Infrastructure (Dependency Inversion Principle) ─
@@ -59,8 +59,8 @@ modules = ["domain"]
 [[tool.importlinter.contracts]]
 name              = "Clean Architecture: application must not import infrastructure"
 type              = "forbidden"
-source_modules    = ["application"]
-forbidden_modules = ["infrastructure"]
+source_modules    = ["modules.games.application"]
+forbidden_modules = ["modules.games.infrastructure"]
 allow_indirect_imports = false
 
 
@@ -70,8 +70,8 @@ allow_indirect_imports = false
 [[tool.importlinter.contracts]]
 name              = "Clean Architecture: domain must not import application or infrastructure"
 type              = "forbidden"
-source_modules    = ["domain"]
-forbidden_modules = ["application", "infrastructure"]
+source_modules    = ["modules.games.domain"]
+forbidden_modules = ["modules.games.application", "modules.games.infrastructure"]
 allow_indirect_imports = false
 
 
@@ -84,59 +84,59 @@ allow_indirect_imports = false
 [[tool.importlinter.contracts]]
 name              = "Clean Code: create_game must not import other use cases"
 type              = "forbidden"
-source_modules    = ["application.use_cases.create_game"]
+source_modules    = ["modules.games.application.use_cases.create_game"]
 forbidden_modules = [
-    "application.use_cases.delete_game",
-    "application.use_cases.get_all_game",
-    "application.use_cases.get_game_by_id",
-    "application.use_cases.update_game",
+    "modules.games.application.use_cases.delete_game",
+    "modules.games.application.use_cases.get_all_game",
+    "modules.games.application.use_cases.get_game_by_id",
+    "modules.games.application.use_cases.update_game",
 ]
 allow_indirect_imports = false
 
 [[tool.importlinter.contracts]]
 name              = "Clean Code: delete_game must not import other use cases"
 type              = "forbidden"
-source_modules    = ["application.use_cases.delete_game"]
+source_modules    = ["modules.games.application.use_cases.delete_game"]
 forbidden_modules = [
-    "application.use_cases.create_game",
-    "application.use_cases.get_all_game",
-    "application.use_cases.get_game_by_id",
-    "application.use_cases.update_game",
+    "modules.games.application.use_cases.create_game",
+    "modules.games.application.use_cases.get_all_game",
+    "modules.games.application.use_cases.get_game_by_id",
+    "modules.games.application.use_cases.update_game",
 ]
 allow_indirect_imports = false
 
 [[tool.importlinter.contracts]]
 name              = "Clean Code: get_all_game must not import other use cases"
 type              = "forbidden"
-source_modules    = ["application.use_cases.get_all_game"]
+source_modules    = ["modules.games.application.use_cases.get_all_game"]
 forbidden_modules = [
-    "application.use_cases.create_game",
-    "application.use_cases.delete_game",
-    "application.use_cases.get_game_by_id",
-    "application.use_cases.update_game",
+    "modules.games.application.use_cases.create_game",
+    "modules.games.application.use_cases.delete_game",
+    "modules.games.application.use_cases.get_game_by_id",
+    "modules.games.application.use_cases.update_game",
 ]
 allow_indirect_imports = false
 
 [[tool.importlinter.contracts]]
 name              = "Clean Code: get_game_by_id must not import other use cases"
 type              = "forbidden"
-source_modules    = ["application.use_cases.get_game_by_id"]
+source_modules    = ["modules.games.application.use_cases.get_game_by_id"]
 forbidden_modules = [
-    "application.use_cases.create_game",
-    "application.use_cases.delete_game",
-    "application.use_cases.get_all_game",
-    "application.use_cases.update_game",
+    "modules.games.application.use_cases.create_game",
+    "modules.games.application.use_cases.delete_game",
+    "modules.games.application.use_cases.get_all_game",
+    "modules.games.application.use_cases.update_game",
 ]
 allow_indirect_imports = false
 
 [[tool.importlinter.contracts]]
 name              = "Clean Code: update_game must not import other use cases"
 type              = "forbidden"
-source_modules    = ["application.use_cases.update_game"]
+source_modules    = ["modules.games.application.use_cases.update_game"]
 forbidden_modules = [
-    "application.use_cases.create_game",
-    "application.use_cases.delete_game",
-    "application.use_cases.get_all_game",
-    "application.use_cases.get_game_by_id",
+    "modules.games.application.use_cases.create_game",
+    "modules.games.application.use_cases.delete_game",
+    "modules.games.application.use_cases.get_all_game",
+    "modules.games.application.use_cases.get_game_by_id",
 ]
 allow_indirect_imports = false

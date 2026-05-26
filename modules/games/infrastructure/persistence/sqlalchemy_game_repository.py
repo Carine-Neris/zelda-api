@@ -1,9 +1,9 @@
 from sqlalchemy.orm import Session
 from uuid import UUID
 from typing import Optional
-from domain.entities import Game
-from domain.repositories import IGameRepository
-from infrastructure.persistence.models.game_model import GameModel
+from modules.games.domain.entities import Game
+from modules.games.domain.repositories import IGameRepository
+from modules.games.infrastructure.persistence.game_model import GameModel
 
 
 class SqlAlchemyGameRepository(IGameRepository):

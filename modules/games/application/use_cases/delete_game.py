@@ -1,5 +1,5 @@
-from domain.repositories import IGameRepository
-from domain.entities import Game
+from modules.games.domain.repositories import IGameRepository
+from modules.games.domain.entities import Game
 from uuid  import UUID
 
 
