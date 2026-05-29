@@ -17,7 +17,6 @@ dev = [
     "ipdb (>=0.13.13,<0.14.0)",
     "pre-commit (>=4.6.0,<5.0.0)",
     "pytest-archon (>=0.0.7,<0.0.8)",
-    "pydeps (>=3.0.0)"  # Adicionado para você gerar o seu modo gráfico localmente!
 ]
 
 [build-system]
