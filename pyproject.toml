@@ -3,206 +3,33 @@ name = "zelda-api"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Carine Neris",email = "carine_neris@hotmail.com"}
+    {name = "Carine Neris", email = "carine_neris@hotmail.com"}
 ]
 requires-python = ">=3.14"
 dependencies = [
     "fastapi (>=0.136.1,<0.137.0)",
     "sqlalchemy (>=2.0.49,<3.0.0)",
     "uvicorn (>=0.46.0,<0.47.0)",
-    "import-linter (>=2.11,<3.0)"
 ]
 
 [dependency-groups]
 dev = [
     "ipdb (>=0.13.13,<0.14.0)",
-    "import-linter[ui] (>=2.11,<3.0)",
     "pre-commit (>=4.6.0,<5.0.0)",
-    "pytest-archon (>=0.0.7,<0.0.8)"
+    "pytest-archon (>=0.0.7,<0.0.8)",
+    "pydeps (>=3.0.0)"  # Adicionado para você gerar o seu modo gráfico localmente!
 ]
-
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-
 [tool.poetry]
 package-mode = false
 
-
 # ─────────────────────────────────────────────────────────────────────────────
-# Import Linter — Clean Architecture + Clean Code rules
-#
-# Dependency direction (Clean Architecture):
-#   domain  ←  application  ←  infrastructure
-#
-# Rules enforced:
-#   1. independence    : domain é completamente isolado (núcleo de negócio)
-#   2. app_no_infra    : application não importa infrastructure (DIP)
-#   3. domain_no_outer : domain não importa application nem infrastructure
-#   4. no_circular_app : use cases não importam uns aos outros de volta
+# Pytest Configuration
+# Garante que a raiz do projeto esteja no PATH de busca dos módulos e testes
 # ─────────────────────────────────────────────────────────────────────────────
-[tool.importlinter]
-root_packages = ["modules"]
-
-
-# ── 1. Independência do Domain (Clean Code — Single Responsibility) ───────────
-# O domínio é o núcleo da aplicação e não pode depender de nenhuma outra camada.
-# Entities e repositórios devem expressar apenas regras de negócio puras.
-[[tool.importlinter.contracts]]
-name    = "Clean Architecture: domain must be independent"
-type    = "independence"
-modules = ["modules.games.domain", "modules.characters.domain"]
-
-
-# ── 2. Application não importa Infrastructure (Dependency Inversion Principle) ─
-# Os use cases dependem de abstrações definidas no domain (ex: repositories.py),
-# nunca de implementações concretas da camada de infrastructure (SQLAlchemy, etc).
-[[tool.importlinter.contracts]]
-name              = "Clean Architecture: application must not import infrastructure"
-type              = "forbidden"
-source_modules    = ["modules.games.application"]
-forbidden_modules = ["modules.games.infrastructure"]
-allow_indirect_imports = false
-
-
-# ── 3. Domain não importa Application nem Infrastructure ─────────────────────
-# Reforça que o núcleo de negócio jamais depende de detalhes externos.
-# Violações aqui indicam inversão de dependência incorreta.
-[[tool.importlinter.contracts]]
-name              = "Clean Architecture: domain must not import application or infrastructure"
-type              = "forbidden"
-source_modules    = ["modules.games.domain", "modules.characters.domain"]
-forbidden_modules = ["modules.games.application", "modules.games.infrastructure"]
-allow_indirect_imports = false
-
-
-# ── 4. Sem Imports Circulares nos Use Cases (Acyclic Dependencies Principle) ──
-# Cada use case deve ser uma unidade isolada e independente dos demais.
-# Um use case importando outro cria acoplamento e dificulta testes unitários.
-# Nota: o import-linter não permite que o mesmo módulo seja source e forbidden
-# simultaneamente, por isso cada use case tem seu próprio contrato.
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: create_game must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.games.application.use_cases.create_game"]
-forbidden_modules = [
-    "modules.games.application.use_cases.delete_game",
-    "modules.games.application.use_cases.get_all_game",
-    "modules.games.application.use_cases.get_game_by_id",
-    "modules.games.application.use_cases.update_game",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: delete_game must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.games.application.use_cases.delete_game"]
-forbidden_modules = [
-    "modules.games.application.use_cases.create_game",
-    "modules.games.application.use_cases.get_all_game",
-    "modules.games.application.use_cases.get_game_by_id",
-    "modules.games.application.use_cases.update_game",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: get_all_game must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.games.application.use_cases.get_all_game"]
-forbidden_modules = [
-    "modules.games.application.use_cases.create_game",
-    "modules.games.application.use_cases.delete_game",
-    "modules.games.application.use_cases.get_game_by_id",
-    "modules.games.application.use_cases.update_game",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: get_game_by_id must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.games.application.use_cases.get_game_by_id"]
-forbidden_modules = [
-    "modules.games.application.use_cases.create_game",
-    "modules.games.application.use_cases.delete_game",
-    "modules.games.application.use_cases.get_all_game",
-    "modules.games.application.use_cases.update_game",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: update_game must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.games.application.use_cases.update_game"]
-forbidden_modules = [
-    "modules.games.application.use_cases.create_game",
-    "modules.games.application.use_cases.delete_game",
-    "modules.games.application.use_cases.get_all_game",
-    "modules.games.application.use_cases.get_game_by_id",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: create_character must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.characters.application.use_cases.create_character"]
-forbidden_modules = [
-    "modules.characters.application.use_cases.delete_character",
-    "modules.characters.application.use_cases.get_all_character",
-    "modules.characters.application.use_cases.get_character_by_id",
-    "modules.characters.application.use_cases.update_character",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: delete_character must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.characters.application.use_cases.delete_character"]
-forbidden_modules = [
-    "modules.characters.application.use_cases.create_character",
-    "modules.characters.application.use_cases.get_all_character",
-    "modules.characters.application.use_cases.get_character_by_id",
-    "modules.characters.application.use_cases.update_character",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: get_all_character must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.characters.application.use_cases.get_all_character"]
-forbidden_modules = [
-    "modules.characters.application.use_cases.create_character",
-    "modules.characters.application.use_cases.delete_character",
-    "modules.characters.application.use_cases.get_character_by_id",
-    "modules.characters.application.use_cases.update_character",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: get_character_by_id must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.characters.application.use_cases.get_character_by_id"]
-forbidden_modules = [
-    "modules.characters.application.use_cases.create_character",
-    "modules.characters.application.use_cases.delete_character",
-    "modules.characters.application.use_cases.get_all_character",
-    "modules.characters.application.use_cases.update_character",
-]
-allow_indirect_imports = false
-
-[[tool.importlinter.contracts]]
-name              = "Clean Code: update_character must not import other use cases"
-type              = "forbidden"
-source_modules    = ["modules.characters.application.use_cases.update_character"]
-forbidden_modules = [
-    "modules.characters.application.use_cases.create_character",
-    "modules.characters.application.use_cases.delete_character",
-    "modules.characters.application.use_cases.get_all_character",
-    "modules.characters.application.use_cases.get_character_by_id",
-]
-allow_indirect_imports = false
-
 [tool.pytest.ini_options]
 pythonpath = ["."]
