@@ -15,7 +15,10 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "ipdb (>=0.13.13,<0.14.0)"
+    "ipdb (>=0.13.13,<0.14.0)",
+    "import-linter[ui] (>=2.11,<3.0)",
+    "pre-commit (>=4.6.0,<5.0.0)",
+    "pytest-archon (>=0.0.7,<0.0.8)"
 ]
 
 
@@ -200,3 +203,6 @@ forbidden_modules = [
     "modules.characters.application.use_cases.get_character_by_id",
 ]
 allow_indirect_imports = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]

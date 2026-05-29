@@ -1,0 +1,60 @@
+[importlinter]
+root_package = modules
+
+# -----------------------------------------------------------------------------
+# CONTRATO 1: ISOLAMENTO ENTRE MÓDULOS (Fronteiras de Domínio)
+# O módulo de Games não pode acessar as entranhas do módulo de Characters.
+# -----------------------------------------------------------------------------
+[importlinter:contract:1]
+name = Games deve ser isolado de Characters
+type = forbidden
+source_modules = 
+    games.domain
+    games.application
+    games.infrastructure
+forbidden_modules = 
+    characters.domain
+    characters.application
+    characters.infrastructure.persistence
+    characters.infrastructure.web
+
+# -----------------------------------------------------------------------------
+# CONTRATO 2: REGRA DE DEPENDÊNCIA DA CLEAN ARCHITECTURE (Camadas)
+# O Domínio é o coração puro. Ele NÃO PODE importar nada da Infraestrutura.
+# -----------------------------------------------------------------------------
+[importlinter:contract:2]
+name = Camada de Dominio nao pode importar da Infraestrutura
+type = forbidden
+source_modules = 
+    games.domain
+    characters.domain
+forbidden_modules = 
+    games.infrastructure
+    characters.infrastructure
+
+# -----------------------------------------------------------------------------
+# CONTRATO 3: FLUXO DE CAMADAS PERMITIDO (Independence)
+# Dentro de 'games', o fluxo de cima para baixo é: infrastructure.web -> application -> domain
+# -----------------------------------------------------------------------------
+[importlinter:contract:3]
+name = Fluxo de camadas Clean Architecture para Games
+type = layers
+layers =
+    infrastructure.web
+    application
+    domain
+containers =
+    games
+
+# -----------------------------------------------------------------------------
+# CONTRATO 4: FLUXO DE CAMADAS PERMITIDO PARA CHARACTERS
+# -----------------------------------------------------------------------------
+[importlinter:contract:4]
+name = Fluxo de camadas Clean Architecture para Characters
+type = layers
+layers =
+    infrastructure.web
+    application
+    domain
+containers =
+    characters
