@@ -23,3 +23,9 @@ def test_clean_architecture_automatic_rules():
         .match("modules.characters*") \
         .should_not_import("modules.games*") \
         .check("modules")
+        
+    # 5. Garante que use cases do mesmo módulo não se acoplem/importem entre si
+    archrule("Use cases devem ser isolados") \
+        .match("modules.*.application.use_cases.*") \
+        .should_not_import("modules.*.application.use_cases.*") \
+        .check("modules")
