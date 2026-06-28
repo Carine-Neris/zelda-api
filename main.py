@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from modules.characters.router import router as character_router
 from modules.games.router import router as game_router
 from config.database import engine, Base
 
@@ -11,3 +12,4 @@ app = FastAPI(
 )
 
 app.include_router(game_router)
+app.include_router(character_router)

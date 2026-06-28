@@ -17,5 +17,8 @@ class UpdateCharacterUseCase:
         for key, value in update_data.items():
             setattr(character, key, value)
 
+        if not character.game_ids:
+            raise ValueError("Character must belong to at least one game")
+
         updated_character = self.character_repo.update(character)
         return updated_character

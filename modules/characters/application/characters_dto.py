@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from uuid import UUID
 
 
@@ -9,15 +9,17 @@ class CharacterCreateDTO(BaseModel):
     gender: str
     description: str
     image_url: str | None
+    game_ids: list[UUID] = Field(min_length=1)
 
 
 class CharacterUpdateDTO(BaseModel):
-    name: str | None
-    race: str | None
-    age: int | None
-    gender: str | None
-    description: str | None
-    image_url: str | None
+    name: str | None = None
+    race: str | None = None
+    age: int | None = None
+    gender: str | None = None
+    description: str | None = None
+    image_url: str | None = None
+    game_ids: list[UUID] | None = None
 
 class CharacterResponseDTO(BaseModel):
     name: str
@@ -26,6 +28,7 @@ class CharacterResponseDTO(BaseModel):
     gender: str
     description: str
     image_url: str | None
+    game_ids: list[UUID]
     id: UUID
 
 

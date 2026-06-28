@@ -14,6 +14,7 @@ class CreateCharacterUseCase:
             age=data.age,
             gender=data.gender,
             description=data.description,
+            game_ids=data.game_ids,
             image_url=data.image_url
         )
         return self.character_repo.create(new_character)
