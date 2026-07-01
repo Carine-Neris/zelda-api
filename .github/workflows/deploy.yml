@@ -16,22 +16,26 @@ jobs:
         with:
           python-version: '3.14'
 
-      # 1. Instala o Poetry para gerenciar o ambiente de testes
+      # 1. Instala o Poetry para isolar e rodar os testes com segurança
       - name: Instalar o Poetry
         run: |
           pipx install poetry
 
-      # 2. Instala as dependências mapeadas no pyproject.toml
-      - name: Instalar dependências com Poetry
+      - name: Instalar dependências no ambiente do Poetry
         run: |
           poetry install --no-root
 
-      # 3. Roda os testes isolados (o Poetry ignora lixo da raiz)
+      # 2. Executa a sua suíte de testes
       - name: Executar testes com Pytest
         run: |
           poetry run pytest
 
-      # 4. Envia o código limpo para a Azure (que usará seu requirements.txt)
+      # 3. O SEGREDO: O GitHub instala os pacotes do requirements.txt dentro de uma pasta local antes do deploy
+      - name: Preparar empacotamento de produção
+        run: |
+          pip install -r requirements.txt --target=.
+
+      # 4. Envia o pacote completo (Código + Bibliotecas juntas)
       - name: Fazer deploy para o Azure Web App
         uses: azure/webapps-deploy@v3
         with:
