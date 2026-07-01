@@ -3,6 +3,7 @@ name: Deploy FastAPI para a Azure
 on:
   push:
     branches: [ "main" ]
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -15,17 +16,25 @@ jobs:
         with:
           python-version: '3.14'
 
-      - name: Instalar dependências
+      # 1. Instala o Poetry para gerenciar o ambiente de testes
+      - name: Instalar o Poetry
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pipx install poetry
 
+      # 2. Instala as dependências mapeadas no pyproject.toml
+      - name: Instalar dependências com Poetry
+        run: |
+          poetry install --no-root
+
+      # 3. Roda os testes isolados (o Poetry ignora lixo da raiz)
       - name: Executar testes com Pytest
         run: |
-          python -m pytest
+          poetry run pytest
 
+      # 4. Envia o código limpo para a Azure (que usará seu requirements.txt)
       - name: Fazer deploy para o Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'zelda'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: .
